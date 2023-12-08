@@ -346,15 +346,16 @@ function winnerCheck(){
     console.log(kings);
     if(!kings.some(king => king.firstChild.classList.contains('white'))){
         infoElm.innerHTML = "Black Player wins!";
-        infoElm.classList.add('fs-2')
+        infoElm.classList.add('fs-2');
+        playerElm.parentElement.classList.add('d-none')
         const boxElms = document.querySelectorAll('.box');
         boxElms.forEach(box => box.firstChild?.setAttribute('draggable',false))
     }
     if(!kings.some(king => king.firstChild.classList.contains('black'))){
         infoElm.innerHTML = "White Player wins!";
+        infoElm.classList.add('fs-2');
         const boxElms = document.querySelectorAll('.box');
         boxElms.forEach(box => box.firstChild?.setAttribute('draggable',false))
     }
-
 }
 
