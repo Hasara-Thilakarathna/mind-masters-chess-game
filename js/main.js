@@ -142,19 +142,17 @@ function checkIfValid(target) {
     const targetId = Number(target.getAttribute('box-id')) || Number(target.parentNode.getAttribute('box-id'));
     const startId = Number(startingPosition);
     const pieceElm = draggedElm.id
-    console.log("targetId", targetId);
-    console.log("startId", startId);
-    console.log("piece", pieceElm);
-    console.log(startId + width - 2);
 
     switch (pieceElm) {
         case 'pawn':
             const initialRow = [8, 9, 10, 11, 12, 13, 14, 15]
-            if (initialRow.includes(startId) && startId + width * 2 === targetId
-                || startId + width === targetId
-                || startId + width - 1 === targetId && document.querySelector(`[box-id="${startId + width - 1}"]`).firstChild
-                || startId + width + 1 === targetId && document.querySelector(`[box-id="${startId + width + 1}"]`).firstChild
+            if (
+                initialRow.includes(startId) && startId + width * 2 === targetId || 
+                startId + width === targetId && !document.querySelector(`[box-id="${startId + width}"]`).firstChild || 
+                startId + width - 1 === targetId && document.querySelector(`[box-id="${startId + width - 1}"]`).firstChild || 
+                startId + width + 1 === targetId && document.querySelector(`[box-id="${startId + width + 1}"]`).firstChild
             ) {
+                // document.querySelector(`[box-id="${startId + width - 1}"]`).classList.add('bg-success');
                 return true;
             }
             break;
