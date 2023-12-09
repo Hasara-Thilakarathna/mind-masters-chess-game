@@ -1,10 +1,36 @@
 const chessBoardElm = document.querySelector("#chessboard");
 const playerElm = document.querySelector("#player");
+const removedPieces = document.querySelector('#total-pieces');
 
+let countW = 0;
+let countB = 0;
+
+const whiteTotal = document.querySelector('#white-total')
+const blackTotal = document.querySelector('#black-total')
 const infoElm = document.querySelector("#info");
 const width = 8;
 let playerGo = 'black';
-playerElm.textContent = 'black'
+playerElm.textContent = 'black';
+
+// Create Game Starting UI
+
+const btnElm = document.createElement('button');
+const divElm = document.createElement('div');
+const txtElm = document.createElement('div');
+document.querySelector('body').append(divElm);
+divElm.classList.add('d-flex' ,'flex-column','align-items-center','justify-content-center','vh-100','vw-100','gap-5')
+txtElm.innerHTML = `<div>Welcome to</div>Mind Masters Chess<div></div>`;
+txtElm.classList.add('fs-1','d-flex','flex-column','align-items-center')
+btnElm.classList.add('btn','btn-success',)
+btnElm.innerText = "Start Game!";
+divElm.append(txtElm);
+divElm.append(btnElm);
+
+
+btnElm.addEventListener('click',()=>{
+    document.querySelector('#game-ui').classList.remove('d-none');
+    divElm.classList.add('d-none')
+})
 
 
 const king = "<div class='piece' id='king'><svg xmlns=\"http://www.w3.org/2000/svg\" height=\"70\" width=\"70\" viewBox=\"0 0 448 512\"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d=\"M224 0c17.7 0 32 14.3 32 32V48h16c17.7 0 32 14.3 32 32s-14.3 32-32 32H256v48H408c22.1 0 40 17.9 40 40c0 5.3-1 10.5-3.1 15.4L368 400H80L3.1 215.4C1 210.5 0 205.3 0 200c0-22.1 17.9-40 40-40H192V112H176c-17.7 0-32-14.3-32-32s14.3-32 32-32h16V32c0-17.7 14.3-32 32-32zM38.6 473.4L80 432H368l41.4 41.4c4.2 4.2 6.6 10 6.6 16c0 12.5-10.1 22.6-22.6 22.6H54.6C42.1 512 32 501.9 32 489.4c0-6 2.4-11.8 6.6-16z\"/></svg></div> ";
@@ -26,6 +52,7 @@ const pieces = [
 ]
 
 // Create Chess board
+
 function createBoard() {
     pieces.forEach((piece, i) => {
         const box = document.createElement('div');
@@ -51,7 +78,7 @@ function createBoard() {
 
 createBoard();
 
-const boxElms = document.querySelectorAll(".box")
+const boxElms = document.querySelectorAll(".box");
 
 //Update draggable and droppable functions
 
@@ -86,6 +113,8 @@ function dragDrop(e) {
         if (takenByOppElm && valid) {
             e.target.parentNode.append(draggedElm);
             e.target.remove();
+            if(e.target.firstChild.classList.contains('white')) whiteTotal.innerHTML = "White pieces : " + ++countW + `<i class="fa-regular fa-chess-pawn"></i>`;
+            if(e.target.firstChild.classList.contains('black')) blackTotal.innerHTML = "Black pieces : " + ++countB + `<i class="fa-solid fa-chess-pawn"></i>`;
             winnerCheck();
             changePlayer();
             return;
@@ -119,18 +148,16 @@ function changePlayer() {
     }
 }
 
-// Reverse the id numbers
+// Reverse the box id numbers
 
 function reverseIds() {
-    const boxElms = document.querySelectorAll('.box');
     boxElms.forEach((box, i) =>
         box.setAttribute('box-id', (width * width - 1) - i))
 }
 
-// Change id number to previous state
+// Change box id number to previous state
 
 function revertIds() {
-    const boxElms = document.querySelectorAll('.box');
     boxElms.forEach((box, i) =>
         box.setAttribute('box-id', i));
 }
@@ -141,18 +168,17 @@ function revertIds() {
 function checkIfValid(target) {
     const targetId = Number(target.getAttribute('box-id')) || Number(target.parentNode.getAttribute('box-id'));
     const startId = Number(startingPosition);
-    const pieceElm = draggedElm.id
+    const pieceElm = draggedElm.id;
 
     switch (pieceElm) {
         case 'pawn':
             const initialRow = [8, 9, 10, 11, 12, 13, 14, 15]
             if (
-                initialRow.includes(startId) && startId + width * 2 === targetId || 
-                startId + width === targetId && !document.querySelector(`[box-id="${startId + width}"]`).firstChild || 
-                startId + width - 1 === targetId && document.querySelector(`[box-id="${startId + width - 1}"]`).firstChild || 
+                initialRow.includes(startId) && startId + width * 2 === targetId ||
+                startId + width === targetId && !document.querySelector(`[box-id="${startId + width}"]`).firstChild ||
+                startId + width - 1 === targetId && document.querySelector(`[box-id="${startId + width - 1}"]`).firstChild ||
                 startId + width + 1 === targetId && document.querySelector(`[box-id="${startId + width + 1}"]`).firstChild
             ) {
-                // document.querySelector(`[box-id="${startId + width - 1}"]`).classList.add('bg-success');
                 return true;
             }
             break;
@@ -331,29 +357,28 @@ function checkIfValid(target) {
             ) {
                 return true;
             }
-
-
-
     }
 }
 
 //Check for the winner
 
-function winnerCheck(){
+function winnerCheck() {
     const kings = Array.from(document.querySelectorAll('#king'));
-    console.log(kings);
-    if(!kings.some(king => king.firstChild.classList.contains('white'))){
-        infoElm.innerHTML = "Black Player wins!";
-        infoElm.classList.add('fs-2');
+    if (!kings.some(king => king.firstChild.classList.contains('white'))) {
+        infoElm.innerHTML = `<div class="d-flex flex-column align-items-center text-success">
+        <div>Congratulations !</div> <div>Black Player wins <i class="fa-solid fa-chess-king"></i></div>
+        </div>`;
+        infoElm.classList.add('fs-2' ,'rounded-2');
         playerElm.parentElement.classList.add('d-none')
-        const boxElms = document.querySelectorAll('.box');
-        boxElms.forEach(box => box.firstChild?.setAttribute('draggable',false))
+        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false))
     }
-    if(!kings.some(king => king.firstChild.classList.contains('black'))){
-        infoElm.innerHTML = "White Player wins!";
-        infoElm.classList.add('fs-2');
-        const boxElms = document.querySelectorAll('.box');
-        boxElms.forEach(box => box.firstChild?.setAttribute('draggable',false))
+    if (!kings.some(king => king.firstChild.classList.contains('black'))) {
+        infoElm.innerHTML = `<div class="d-flex flex-column align-items-center text-success">
+        <div>Congratulations !</div> <div>White Player wins <i class="fa-solid fa-chess-king"></i></div>
+        </div>`;
+        infoElm.classList.add('fs-2','rounded-2');
+        playerElm.parentElement.classList.add('d-none')
+        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false))
     }
 }
 

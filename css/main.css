@@ -43,11 +43,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: url('/img/chess-bg.jpg');
+    background-size: cover;
+    color: wheat;
 }
 
-h1 {
-    color: #1a1d20;
-}
+
 
 .black {
     fill: black;
@@ -57,3 +58,12 @@ h1 {
     fill: #ffffff;
 }
 
+
+#total-pieces {
+    gap: 300px;
+}
+
+
+#info {
+    background-color: wheat;
+}
