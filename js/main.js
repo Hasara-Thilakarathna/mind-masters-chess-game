@@ -29,7 +29,7 @@ divElm.append(btnElm);
 
 btnElm.addEventListener('click',()=>{
     document.querySelector('#game-ui').classList.remove('d-none');
-    divElm.classList.add('d-none')
+    divElm.classList.add('d-none');
 })
 
 
@@ -121,7 +121,8 @@ function dragDrop(e) {
         }
 
         if (takenElm && !takenByOppElm) {
-            infoElm.textContent = "You can't move here!"
+            infoElm.textContent = "You can't move here!";
+            infoElm.classList.add('fs-2' ,'rounded-2','text-black','text-center','bg-light');
             setTimeout(() => infoElm.textContent = "", 2000)
             return
         }
@@ -365,20 +366,52 @@ function checkIfValid(target) {
 function winnerCheck() {
     const kings = Array.from(document.querySelectorAll('#king'));
     if (!kings.some(king => king.firstChild.classList.contains('white'))) {
-        infoElm.innerHTML = `<div class="d-flex flex-column align-items-center text-success">
-        <div>Congratulations !</div> <div>Black Player wins <i class="fa-solid fa-chess-king"></i></div>
-        </div>`;
+        infoElm.innerHTML = `
+
+        <div class="d-flex gap-4 justify-content-between align-items-center px-2">
+        <div class="d-flex flex-column align-items-center text-success">
+        <div>Congratulations !</div> 
+        <div>Black Player wins <i class="fa-solid fa-chess-king"></i></div>
+        </div>
+
+        <div>
+        <button id="btn-play" class="btn btn-success">Play Again</button>
+        </div>
+
+        </div>
+
+        `;
+        document.querySelector('#btn-play').addEventListener('click',()=>{
+            location.reload();
+        });
         infoElm.classList.add('fs-2' ,'rounded-2');
         playerElm.parentElement.classList.add('d-none')
-        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false))
+        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false));
+        refreshGame();
+        
     }
     if (!kings.some(king => king.firstChild.classList.contains('black'))) {
-        infoElm.innerHTML = `<div class="d-flex flex-column align-items-center text-success">
-        <div>Congratulations !</div> <div>White Player wins <i class="fa-solid fa-chess-king"></i></div>
-        </div>`;
+        infoElm.innerHTML = `
+        <div class="d-flex gap-4 justify-content-between align-items-center px-2">
+        <div class="d-flex flex-column align-items-center text-success">
+        <div>Congratulations !</div> 
+        <div>White Player wins <i class="fa-solid fa-chess-king"></i></div>
+        </div>
+
+        <div>
+        <button id="btn-play" class="btn btn-success">Play Again</button>
+        </div>
+
+        </div>
+
+        `;
+        document.querySelector('#btn-play').addEventListener('click',()=>{
+            location.reload();
+        });
         infoElm.classList.add('fs-2','rounded-2');
         playerElm.parentElement.classList.add('d-none')
-        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false))
+        boxElms.forEach(box => box.firstChild?.setAttribute('draggable', false));
+       
     }
 }
 
