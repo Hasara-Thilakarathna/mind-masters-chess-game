@@ -8,10 +8,11 @@
 .box {
     height: 80px;
     width: 80px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.9) ;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
     position: relative;
 
 }
+
 .box svg {
     position: relative;
     margin: 5px;
@@ -28,12 +29,14 @@ path {
     z-index: 9;
 }
 
-.light{
+.light {
     background-color: #b7b5b5;
 }
+
 .dark {
     background-color: #4f4d4d;
 }
+
 .text-center {
     text-align: center;
 }
@@ -66,4 +69,32 @@ body {
 
 #info {
     background-color: wheat;
+}
+
+@media all and (max-width: 650px) {
+
+    #chessboard {
+        width: 400px;
+        height: 400px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .box {
+        width: 50px;
+        height: 50px;
+    }
+
+    .box svg {
+        position: relative;
+        height: 40px;
+        width: 40px;
+        margin: 3px;
+        z-index: -9;
+
+    }
+
+    #total-pieces {
+        gap: 100px;
+    }
 }
