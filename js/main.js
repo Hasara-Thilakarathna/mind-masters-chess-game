@@ -9,8 +9,8 @@ const whiteTotal = document.querySelector('#white-total')
 const blackTotal = document.querySelector('#black-total')
 const infoElm = document.querySelector("#info");
 const width = 8;
-let playerGo = 'black';
-playerElm.textContent = 'black';
+let playerGo = 'white';
+playerElm.textContent = 'white';
 
 // Create Game Starting UI
 
@@ -67,10 +67,10 @@ function createBoard() {
             box.classList.add(i % 2 === 0 ? 'light' : 'dark')
         }
         if (i <= 15) {
-            box.firstChild.firstChild.classList.add('black')
+            box.firstChild.firstChild.classList.add('white')
         }
         if (i >= 48) {
-            box.firstChild.firstChild.classList.add('white')
+            box.firstChild.firstChild.classList.add('black')
         }
         chessBoardElm.append(box);
     });
@@ -105,7 +105,7 @@ function dragDrop(e) {
     const correctGo = draggedElm.firstChild.classList.contains(playerGo);
     const takenElm = e.target.classList.contains('piece');
     const valid = checkIfValid(e.target)
-    const opponentGoElm = playerGo === 'white' ? 'black' : 'white';
+    const opponentGoElm = playerGo === 'black' ? 'white' : 'black';
     const takenByOppElm = e.target.firstChild?.classList.contains(opponentGoElm);
 
     if (correctGo) {
@@ -138,14 +138,14 @@ function dragDrop(e) {
 // Change player turn
 
 function changePlayer() {
-    if (playerGo === 'black') {
+    if (playerGo === 'white') {
         reverseIds();
-        playerGo = 'white'
-        playerElm.textContent = 'white';
+        playerGo = 'black'
+        playerElm.textContent = 'black';
     } else {
         revertIds();
-        playerGo = 'black';
-        playerElm.textContent = 'black';
+        playerGo = 'white';
+        playerElm.textContent = 'white';
     }
 }
 
