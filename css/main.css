@@ -46,7 +46,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('/img/chess-bg.jpg');
+    background-image: url('../img/chess-bg.jpg');
     background-size: cover;
     color: wheat;
 }
